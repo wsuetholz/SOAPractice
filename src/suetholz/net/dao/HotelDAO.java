@@ -52,9 +52,50 @@ public class HotelDAO implements IHotelDAO {
     }
 
     @Override
+    public Hotel getHotelByName (String hotelName) throws ClassNotFoundException, SQLException {
+	if (hotelName == null || hotelName.isEmpty()) {
+	    throw new IllegalArgumentException("No Hotel Name Given");
+	}
+	
+	db.openConnection(driverClass, url, userName, password);
+	Map<String, Object> record = db.getRecordById("hotel", "hotel_name", hotelName);
+	Hotel hotel = new Hotel();
+	hotel.setHotelId(Integer.parseInt(record.get("hotel_id").toString()));
+	hotel.setHotelName(record.get("hotel_name").toString());
+	hotel.setStreetAddress(record.get("street_address").toString());
+	hotel.setCity(record.get("city").toString());
+	hotel.setState(record.get("state").toString());
+	hotel.setPostalCode(record.get("postal_code").toString());
+	hotel.setNotes(record.get("notes").toString());
+
+	return hotel;
+    }
+    
+    @Override
+    public Hotel getHotelById (long hotelId) throws ClassNotFoundException, SQLException {
+	if (hotelId == 0) {
+	    throw new IllegalArgumentException("No Hotel ID Given");
+	}
+	
+	db.openConnection(driverClass, url, userName, password);
+	Map<String, Object> record = db.getRecordById("hotel", "hotel_id", new Long(hotelId));
+	Hotel hotel = new Hotel();
+	hotel.setHotelId(Integer.parseInt(record.get("hotel_id").toString()));
+	hotel.setHotelName(record.get("hotel_name").toString());
+	hotel.setStreetAddress(record.get("street_address").toString());
+	hotel.setCity(record.get("city").toString());
+	hotel.setState(record.get("state").toString());
+	hotel.setPostalCode(record.get("postal_code").toString());
+	hotel.setNotes(record.get("notes").toString());
+
+	return hotel;
+    }
+    
+    @Override
     public long updateHotel(Hotel hotel) throws ClassNotFoundException, SQLException {
 	Map<String, Object> updKeyRec = new HashMap<>();
 	updKeyRec.put("hotel_id", hotel.getHotelId());
+	
 	Map<String, Object> updValRec = new HashMap<>();
 	updValRec.put("hotel_name", hotel.getHotelName());
 	updValRec.put("street_address", hotel.getStreetAddress());
