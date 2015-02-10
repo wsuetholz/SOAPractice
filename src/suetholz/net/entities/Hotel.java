@@ -77,6 +77,33 @@ public class Hotel {
     public void setNotes(String notes) {
 	this.notes = notes;
     }
+
+    @Override
+    public int hashCode() {
+	int hash = 5;
+	hash = 23 * hash + this.hotelId;
+	return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	final Hotel other = (Hotel) obj;
+	if (this.hotelId != other.hotelId) {
+	    return false;
+	}
+	return true;
+    }
+
+    @Override
+    public String toString() {
+	return "Hotel{" + "hotelId=" + hotelId + ", hotelName=" + hotelName + ", streetAddress=" + streetAddress + ", city=" + city + ", state=" + state + ", postalCode=" + postalCode + ", notes=" + notes + '}';
+    }
     
     
 }

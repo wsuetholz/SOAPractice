@@ -17,4 +17,10 @@ public interface IHotelDAO {
 
     List<Hotel> getAllHotels() throws ClassNotFoundException, SQLException;
     
+    long updateHotel (Hotel hotel) throws ClassNotFoundException, SQLException;
+    
+    long deleteHotel (Hotel hotel) throws ClassNotFoundException, SQLException;
+    
+    long insertHotel (Hotel hotel) throws ClassNotFoundException, SQLException;
+    
 }

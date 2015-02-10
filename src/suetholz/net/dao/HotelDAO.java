@@ -7,6 +7,7 @@ package suetholz.net.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import suetholz.net.dba.DB_Accessor;
@@ -49,11 +50,59 @@ public class HotelDAO implements IHotelDAO {
 	}
 	return hotels;
     }
+
+    @Override
+    public long updateHotel(Hotel hotel) throws ClassNotFoundException, SQLException {
+	Map<String, Object> updKeyRec = new HashMap<>();
+	updKeyRec.put("hotel_id", hotel.getHotelId());
+	Map<String, Object> updValRec = new HashMap<>();
+	updValRec.put("hotel_name", hotel.getHotelName());
+	updValRec.put("street_address", hotel.getStreetAddress());
+	updValRec.put("city", hotel.getCity());
+	updValRec.put("state", hotel.getState());
+	updValRec.put("postal_code", hotel.getPostalCode());
+	updValRec.put("notes", hotel.getNotes());
+
+	db.openConnection(driverClass, url, userName, password);
+	long retVal = db.updateRecords("hotel", updKeyRec, updValRec);
+	
+	return retVal;
+    }
+
+    @Override
+    public long deleteHotel(Hotel hotel) throws ClassNotFoundException, SQLException {
+	Map<String, Object> delKeyRec = new HashMap<>();
+	delKeyRec.put("hotel_id", hotel.getHotelId());
+
+	db.openConnection(driverClass, url, userName, password);
+	long retVal = db.deleteRecords("hotel", delKeyRec);
+	
+	return retVal;
+    }
+
+    @Override
+    public long insertHotel(Hotel hotel) throws ClassNotFoundException, SQLException {
+	Map<String, Object> insRec = new HashMap<>();
+	insRec.put("hotel_id", 0);
+	insRec.put("hotel_name", hotel.getHotelName());
+	insRec.put("street_address", hotel.getStreetAddress());
+	insRec.put("city", hotel.getCity());
+	insRec.put("state", hotel.getState());
+	insRec.put("postal_code", hotel.getPostalCode());
+	insRec.put("notes", hotel.getNotes());
+
+	db.openConnection(driverClass, url, userName, password);
+	long retVal = db.insertRecord("hotel", insRec);
+	
+	return retVal;
+    }
     
     public static void main(String[] args) throws Exception {
 	IHotelDAO hotelDao = new HotelDAO();
 	
 	List<Hotel> hotels = hotelDao.getAllHotels();
-	System.out.println(hotels.toString());
+	for ( Hotel hotel: hotels) {
+	    System.out.println(hotel);
+	}
     }
 }
