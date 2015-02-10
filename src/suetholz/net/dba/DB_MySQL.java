@@ -316,6 +316,16 @@ public class DB_MySQL implements DB_Accessor {
 	System.out.println(rec.toString());
 	rec = db.getRecordById("hotel", "hotel_id", 5);
 	System.out.println(rec.toString());
+
+	Map<String, Object> updKeyRec = new HashMap<>();
+	updKeyRec.put("hotel_name", "Hotel Number 2");
+	Map<String, Object> updValRec = new HashMap<>();
+	updValRec.put("notes", "Some Notes about Hotel Number 2");
+	retVal = db.updateRecords("hotel", updKeyRec, updValRec);
+	System.out.println("db.update returns " + retVal);
+	rec = db.getRecordById("hotel", "hotel_name", "Hotel Number 2");
+	System.out.println(rec.toString());
+
 	Map<String, Object> delRec = new HashMap<>();
 	delRec.put("hotel_name", "Hotel Number 3");
 	retVal = db.deleteRecords("hotel", delRec);
